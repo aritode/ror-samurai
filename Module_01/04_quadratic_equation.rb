@@ -26,7 +26,7 @@ def calculate_x1_x2(discriminant, a, b)
     x2 = ( Math.sqrt(discriminant) + b ) * ( -1 ) / ( 2 * a )
   end
 
-  show_x1_x2(discriminant, a, b)
+  show_x1_x2(discriminant, x1, x2)
 end
 
 
