@@ -20,10 +20,11 @@ end
 
 def calculate_x1_x2(discriminant, a, b)
   if discriminant == 0
-    x1 = ( Math.sqrt(discriminant) - b ) / ( 2 * a )
+    x1 = ( 0 - b ) / ( 2 * a )
   elsif discriminant > 0
-    x1 = ( Math.sqrt(discriminant) - b ) / ( 2 * a )
-    x2 = ( Math.sqrt(discriminant) + b ) * ( -1 ) / ( 2 * a )
+    square_d = Math.sqrt(discriminant)
+    x1 = ( square_d - b ) / ( 2 * a )
+    x2 = ( square_d + b ) * ( -1 ) / ( 2 * a )
   end
 
   show_x1_x2(discriminant, x1, x2)
