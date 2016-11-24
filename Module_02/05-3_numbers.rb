@@ -16,16 +16,12 @@ months = {january: 31,
           december: 31
 }
 
-def visokos_modifier(months)
-  puts "високосный"
-  months[:february] = 29
-end
-
 def visokos_checker(year, months)
-  case
-    when year % 400 == 0 then visokos_modifier(months)
-    when year % 100 == 0 then puts "не високосный"
-    when year % 4 == 0 then visokos_modifier(months)
+  if year % 400 == 0 || year % 4 == 0
+    puts "високосный"
+    months[:february] = 29
+  elsif year % 100 == 0
+    puts "не високосный"
   end
 end
 

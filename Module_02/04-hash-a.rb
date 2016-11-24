@@ -5,16 +5,9 @@ dictionary = ('a'..'z').to_a
 letters = ["a", "e", "i", "o", "u", "y"]
 
 new_dictionary = {}
-letters_hash = {}
-i = 0
 
-dictionary.each_with_index do |idx, var|
-  i = var + 1
-  new_dictionary[idx] = i
+dictionary.each_with_index do |letter, idx|
+  new_dictionary[letter] = idx + 1 if letters.include?(letter)
 end
 
-letters.each do |var|
-  letters_hash[var] = new_dictionary[var]
-end
-
-p letters_hash
+p new_dictionary

@@ -29,10 +29,10 @@ puts
 rows = []
 final_price = 0
 
-products.each do |var|
-  title = var[0]
-  price = var[1][:price]
-  quantity = var[1][:quantity]
+products.each do |key, value|
+  title = key
+  price = value[:price]
+  quantity = value[:quantity]
   full_price = price * quantity
   final_price += full_price
 
