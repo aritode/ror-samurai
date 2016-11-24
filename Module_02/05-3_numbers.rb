@@ -22,6 +22,8 @@ def visokos_checker(year, months)
     months[:february] = 29
   elsif year % 100 == 0
     puts "не високосный"
+  else
+    puts "не високосный"
   end
 end
 

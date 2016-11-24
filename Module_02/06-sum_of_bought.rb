@@ -29,14 +29,11 @@ puts
 rows = []
 final_price = 0
 
-products.each do |key, value|
-  title = key
-  price = value[:price]
-  quantity = value[:quantity]
-  full_price = price * quantity
+products.each do |title, params|
+  full_price = params[:price] * params[:quantity]
   final_price += full_price
 
-  rows << [title, price, quantity, full_price]
+  rows << [title, params[:price], params[:quantity], full_price]
 end
 
 table = Terminal::Table.new :title => 'Ваша корзина',
