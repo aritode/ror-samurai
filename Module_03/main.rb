@@ -96,9 +96,9 @@ train_passenger.move_next
 puts
 puts '======================'
 puts
- train_passenger.show(:now)
- train_passenger.show(:next)
- train_passenger.show(:previous)
+train_passenger.station_now
+train_passenger.station_next
+train_passenger.station_previous
 puts
 puts '======================'
 puts
@@ -107,9 +107,9 @@ train_passenger.move_next
 puts
 puts '======================'
 puts
-train_passenger.show(:now)
-train_passenger.show(:next)
-train_passenger.show(:previous)
+train_passenger.station_now
+train_passenger.station_next
+train_passenger.station_previous
 puts
 puts '======================'
 puts

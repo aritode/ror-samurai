@@ -87,26 +87,28 @@ class Train
     puts 'Поезд прибыл на конечную станцию' if @location[:now] == @route.stations.last
   end
 
-  #Показывать предыдущую станцию, текущую, следующую, на основе маршрута
-  def show(param)
-    case param
-      when :next
-        if @location[:now] == @route.stations.last
-          inline = 'Нет'
-        else
-          @location[:next] = @route.stations[@location[:index] + 1]
-          inline = @location[:next].name
-        end
-      when :previous
-        if @location[:index] == 0
-          inline = 'Нет'
-        else
-          @location[:previous] = @route.stations[@location[:index] - 1]
-          inline = @location[:previous].name
-        end
-      when :now
-        inline = @location[:now].name
+  def station_next
+    if @location[:now] == @route.stations.last
+      inline = 'Нет (Вы на станции прибытия)'
+    else
+      @location[:next] = @route.stations[@location[:index] + 1]
+      inline = @location[:next].name
     end
-    puts "Показать :#{param} станцию - #{inline} "
+    puts "Следующая станция - #{inline} "
+  end
+
+  def station_previous
+    if @location[:index] == 0
+      inline = 'Нет (Вы в точке отправления)'
+    else
+      @location[:previous] = @route.stations[@location[:index] - 1]
+      inline = @location[:previous].name
+    end
+    puts "Предыдущая станция - #{inline} "
+  end
+
+  def station_now
+    inline = @location[:now].name
+    puts "Станция на которой находится поезд - #{inline} "
   end
 end
