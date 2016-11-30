@@ -6,7 +6,6 @@ class Train
     @type = type
     @carriage_count = carriage_count
     @speed = 0
-    @index
   end
 
   def speed_show
@@ -61,7 +60,7 @@ class Train
   def move_next
     if @index == @route.stations.size - 1
       puts 'Вы находитесь на конечной станции'
-      return nil
+      return
     end
 
     puts "Поезд №#{@number} отправляется на следующую станцию"
@@ -77,25 +76,22 @@ class Train
   end
 
   def station_next
-    if @index == @route.stations.size - 1
-      inline = 'Нет (Вы сейчас находитесь на конечной станции)'
+    if @index != @route.stations.size - 1
+      puts "Следующая станция - #{@route.stations[@index + 1].name}"
     else
-      inline = @route.stations[@index + 1].name
+      puts 'Поезд находится на конечной станции'
     end
-    puts "Следующая станция - #{inline} "
   end
 
   def station_previous
-    if @index == 0
-      inline = 'Нет (Вы сейчас находитесь на станции отправления)'
+    if @index != 0
+      puts "Предыдущая станция - #{@route.stations[@index - 1].name}"
     else
-      inline = @route.stations[@index - 1].name
+      puts 'Поезд находится на станции отправления'
     end
-    puts "Предыдущая станция - #{inline} "
   end
 
   def station_now
-    inline = @route.stations[@index].name
-    puts "Станция на которой находится поезд - #{inline} "
+    puts "Текущая станция - #{@route.stations[@index].name}"
   end
 end
