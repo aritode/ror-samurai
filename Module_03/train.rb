@@ -1,12 +1,12 @@
 class Train
-  attr_reader :speed, :carriage_count, :number, :type, :location
+  attr_reader :speed, :carriage_count, :number, :type
 
   def initialize(number, type, carriage_count)
     @number = number
     @type = type
     @carriage_count = carriage_count
     @speed = 0
-    @location = {}
+    @index
   end
 
   def speed_show
@@ -51,64 +51,51 @@ class Train
     end
   end
 
-  #принимать маршрут следования (объект класса Route)
   def route=(route)
     @route = route
-    @location = { :now => @route.stations.first,
-                  :index => 0
-    }
-
+    @index = 0
     puts 'Добавлен/изменен маршрут на новый'
-    puts "Изменен пункт отправления - #{@location[:now].name}"
+    puts "Изменен пункт отправления - #{@route.stations[@index].name}"
   end
 
   def move_next
-    if @location[:now] == @route.stations.last
+    if @index == @route.stations.size - 1
       puts 'Вы находитесь на конечной станции'
       return nil
     end
 
     puts "Поезд №#{@number} отправляется на следующую станцию"
-    @route.stations.each_with_index do | station, idx|
-      @location[:index] = idx if station == @location[:now]
-    end
-
     3.times { self.speed_up }
 
-    @location[:now].train_out(self)
+    @route.stations[@index].train_out(self)
 
     3.times { self.speed_down }
+    @index += 1
 
-    @location[:index] += 1
-
-    @location[:now] = @route.stations[@location[:index]]
-    @location[:now].train_in(self)
-
-    puts 'Поезд прибыл на конечную станцию' if @location[:now] == @route.stations.last
+    @route.stations[@index].train_in(self)
+    puts 'Поезд прибыл на конечную станцию' if @index == @route.stations.size - 1
   end
 
   def station_next
-    if @location[:now] == @route.stations.last
-      inline = 'Нет (Вы на станции прибытия)'
+    if @index == @route.stations.size - 1
+      inline = 'Нет (Вы сейчас находитесь на конечной станции)'
     else
-      @location[:next] = @route.stations[@location[:index] + 1]
-      inline = @location[:next].name
+      inline = @route.stations[@index + 1].name
     end
     puts "Следующая станция - #{inline} "
   end
 
   def station_previous
-    if @location[:index] == 0
-      inline = 'Нет (Вы в точке отправления)'
+    if @index == 0
+      inline = 'Нет (Вы сейчас находитесь на станции отправления)'
     else
-      @location[:previous] = @route.stations[@location[:index] - 1]
-      inline = @location[:previous].name
+      inline = @route.stations[@index - 1].name
     end
     puts "Предыдущая станция - #{inline} "
   end
 
   def station_now
-    inline = @location[:now].name
+    inline = @route.stations[@index].name
     puts "Станция на которой находится поезд - #{inline} "
   end
 end

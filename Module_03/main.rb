@@ -88,7 +88,8 @@ train_passenger.route = railway_tour
 puts
 puts '======================'
 puts
-p "Текущая станция: #{train_passenger.location[:now].name}"
+# p "Текущая станция: #{train_passenger.location[:now].name}"
+# p "Текущая станция: #{train_passenger.location[:now].name}"
 puts
 puts '======================'
 puts
