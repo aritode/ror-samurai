@@ -1,25 +1,25 @@
 class DisplayMenu
+  MAIN_MENU = [
+      '- ВЫХОД',
+      '- Создать станцию',
+      '- Создать поезд',
+      '- Добавить вагоны к поезду',
+      '- Отцеплять вагоны от поезда',
+      '- Поместить поезд на станцию',
+      '- Список станций',
+      '- Список поездов на станции'
+  ]
+  WELCOME_MESSAGE = [
+      '',
+      'Welcome to Trains on Rails!',
+      '===========================',
+      '',
+      'МЕНЮ:',
+      '----',
+      ''
+  ]
 
   def initialize
-    @main_menu = [
-        '- ВЫХОД',
-        '- Создать станцию',
-        '- Создать поезд',
-        '- Добавить вагоны к поезду',
-        '- Отцеплять вагоны от поезда',
-        '- Поместить поезд на станцию',
-        '- Список станций',
-        '- Список поездов на станции'
-    ]
-    @welcome_message = [
-        '',
-        'Welcome to Trains on Rails!',
-        '===========================',
-        '',
-        'МЕНЮ:',
-        '----',
-        ''
-    ]
     @stations = []
     @trains = []
     choose_step
@@ -27,8 +27,8 @@ class DisplayMenu
 
   def choose_step
     loop do
-      @welcome_message.each { |item| puts item }
-      @main_menu.each_with_index { |item, idx|  puts "#{idx} #{item}" }
+      WELCOME_MESSAGE.each { |item| puts item }
+      MAIN_MENU.each_with_index { |item, idx|  puts "#{idx} #{item}" }
       puts
       print 'Выберите вариант: '
       user_choice = STDIN.gets.chomp.to_i
@@ -101,11 +101,8 @@ class DisplayMenu
       type = STDIN.gets.to_i
     end
 
-    case type
-      when 1 then type = :passenger
-      when 2 then type = :cargo
-    end
-    type
+    types = { 1 => :passenger, 2 => :cargo}
+    types[type]
   end
 
   def user_choose_train
@@ -177,6 +174,7 @@ class DisplayMenu
   end
 
   def press_enter_to_continue
+    puts
     print 'Press ENTER to continue...'
     STDIN.gets
   end
