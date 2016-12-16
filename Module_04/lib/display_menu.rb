@@ -83,11 +83,11 @@ class DisplayMenu
     type = user_choose_train_type
 
     case type
-      when :passenger then type = PassengerCarriage.new
-      when :cargo then type = CargoCarriage.new
+      when :passenger then carriage = PassengerCarriage.new
+      when :cargo then carriage = CargoCarriage.new
     end
 
-    train.add_carriage(type)
+    train.add_carriage(carriage)
     press_enter_to_continue
     choose_step
   end

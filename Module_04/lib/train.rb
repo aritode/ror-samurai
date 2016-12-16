@@ -33,7 +33,7 @@ class Train
   end
 
   def add_carriage(carriage)
-    if @speed == 0
+    if @speed == 0 && carriage.type == self.type
       @carriages << carriage
       puts "Carriage added."
       carriages_show
