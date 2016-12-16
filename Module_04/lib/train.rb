@@ -1,10 +1,10 @@
 class Train
-  attr_reader :speed, :carriage_count, :number, :type
+  attr_reader :speed, :number, :type
 
-  def initialize(number, type, carriage_count)
+  def initialize(number, type)
     @number = number
     @type = type
-    @carriage_count = carriage_count
+    @carriages = []
     @speed = 0
   end
 
@@ -28,10 +28,15 @@ class Train
     end
   end
 
-  def add_carriage
+  def carriages_show
+    puts "You have: #{@carriages.size} carriage(s)."
+  end
+
+  def add_carriage(carriage)
     if @speed == 0
-      @carriage_count += 1
-      puts "Carriage added. You have #{@carriage_count} left."
+      @carriages << carriage
+      puts "Carriage added."
+      carriages_show
     else
       puts "Can't add carriage! Lower carriage speed to 0."
       speed_show
@@ -39,14 +44,16 @@ class Train
   end
 
   def delete_carriage
-    if @carriage_count == 0
-      puts "Zero carriages left in carriage. You have #{@carriage_count} left."
+    if @carriages.size == 0
+      puts 'Can\'t delete carriage'
+      carriages_show
     elsif @speed == 0
-      @carriage_count -= 1
-      puts "Carriage deleted. You have #{@carriage_count} left."
+      c = @carriages.pop
+      puts "Carriage type: #{c.type} deleted."
+      carriages_show
     else
-      puts "Can't add carriage! Lower carriage speed to 0."
-      speed
+      puts "Can't delete carriage! Lower carriage speed to 0."
+      speed_show
     end
   end
 
