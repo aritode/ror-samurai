@@ -1,12 +1,21 @@
+require_relative 'modules/vendor_name.rb'
+
 class Train
   include VendorName
   attr_reader :speed, :number, :type
+
+  @@trains = {}
 
   def initialize(number, type)
     @number = number
     @type = type
     @carriages = []
     @speed = 0
+    @@numbers << number
+  end
+
+  def self.find(number)
+    @@numbers.select { |id| id == id }
   end
 
   def speed_show
