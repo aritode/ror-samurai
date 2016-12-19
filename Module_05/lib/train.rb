@@ -11,11 +11,11 @@ class Train
     @type = type
     @carriages = []
     @speed = 0
-    @@numbers << number
+    @@trains[number] = self
   end
 
   def self.find(number)
-    @@numbers.select { |id| id == id }
+    @@trains[number]
   end
 
   def speed_show
