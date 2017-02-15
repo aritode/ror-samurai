@@ -7,7 +7,7 @@ class Train
   include InstanceCounter
   include Validation
 
-  attr_reader :speed, :number, :type
+  attr_reader :speed, :number, :type, :carriages
 
   @@trains = {}
 
@@ -119,6 +119,10 @@ class Train
 
   def station_now
     puts "Текущая станция - #{@route.stations[@index].name}"
+  end
+
+  def all_carriages(&block)
+    @carriages.each_with_index &block
   end
 
   protected

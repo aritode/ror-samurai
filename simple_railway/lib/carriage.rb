@@ -7,12 +7,13 @@ class Carriage
   include InstanceCounter
   include Validation
 
-  attr_reader :type
+  attr_reader :type, :id
 
   TYPE_FORMAT = /^(cargo|passenger)$/i
 
   def initialize(type)
     @type = type
+    @id = rand(1000)
 
     valid!
     register_instance

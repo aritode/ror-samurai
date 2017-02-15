@@ -29,16 +29,20 @@ class Station
     if @trains.empty?
       puts "Пусто"
     else
-      @trains.each { |item| puts "Номер поезда - №#{item.number}. Тип: #{item.type}" }
+      @trains.each { |train| puts "Номер поезда - №#{train.number}. Тип: #{train.type}. Вагонов: #{train.carriages.size}" }
     end
   end
 
   def show_by_type(arg)
     puts "Поездов на станции по типу: #{arg}"
     list = @trains.select { |train| train.type == arg }
-    list.each { |item| puts "Номер поезда - №#{item.number}. Тип: #{item.type}" }
+    list.each { |train| puts "Номер поезда - №#{train.number}. Тип: #{train.type}. Вагонов: #{train.carriages.size}" }
     puts "Кол-во: #{list.size}"
     puts "Всего: #{@trains.size}"
+  end
+
+  def all_trains(&block)
+    @trains.each &block
   end
 
   protected

@@ -7,7 +7,8 @@ class DisplayMenu
       '- Отцеплять вагоны от поезда',
       '- Поместить поезд на станцию',
       '- Список станций',
-      '- Список поездов на станции'
+      '- Список поездов на станции',
+      '- Занять место или обьем в вагоне'
   ]
   WELCOME_MESSAGE = [
       '',
@@ -48,6 +49,7 @@ class DisplayMenu
       when 5 then take_train_to_station
       when 6 then show_stations
       when 7 then show_trains_on_station
+      when 8 then take_seat_or_capacity
       else
         puts 'Нет такого пункта'
     end
@@ -87,10 +89,11 @@ class DisplayMenu
   def add_carriage
     train = user_choose_train
     type = user_choose_train_type
+    capacity = user_choose_carriage_capacity
 
     case type
-      when :passenger then carriage = PassengerCarriage.new
-      when :cargo then carriage = CargoCarriage.new
+      when :passenger then carriage = PassengerCarriage.new(capacity)
+      when :cargo then carriage = CargoCarriage.new(capacity)
     end
 
     train.add_carriage(carriage)
@@ -99,6 +102,11 @@ class DisplayMenu
   rescue StandardError => e
     puts "Error: #{e.message}"
     retry
+  end
+
+  def user_choose_carriage_capacity
+    print 'Введите максимальный обьем места в вагоне: '
+    capacity = STDIN.gets.to_i
   end
 
   def user_choose_train_type
@@ -115,14 +123,14 @@ class DisplayMenu
   end
 
   def user_choose_train
-    puts 'Выберите поезд и введите пункт меню: '
+    puts 'Выберите поезд: '
     if @trains.empty?
       puts 'Поездов нет. Создайте первый поезд.'
       press_enter_to_continue
       choose_step
     else
       @trains.each_with_index do |train, index|
-        puts "#{index}: Поезд №#{train.number} тип: #{train.type}"
+        puts "#{index}: Поезд №#{train.number} тип: #{train.type} кол-во вагонов: #{train.carriages.size}"
       end
       index = STDIN.gets.to_i
       train = @trains[index]
@@ -181,6 +189,45 @@ class DisplayMenu
     press_enter_to_continue
     choose_step
   end
+
+  def take_seat_or_capacity
+    train = user_choose_train
+    if train.carriages.size == 0
+      puts 'Вагонов нет.'
+      press_enter_to_continue
+      choose_step
+    end
+
+    puts 'Выберите вагон: '
+
+    if train.type == :cargo
+      train.all_carriages { |carriage, idx| puts "#{idx + 1}. Номер вагона: #{carriage.id} Свободно: #{carriage
+                                                                                                           .capacity_available}; Занято:
+#{carriage.capacity_taken} ID:#{carriage.id}" }
+    else
+      train.all_carriages { |carriage, idx| puts "#{idx + 1}. Номер вагона: #{carriage.id} Свободно: #{carriage.seats_available};
+Занято: #{carriage.seats_taken}" }
+    end
+    user_choice = STDIN.gets.to_i
+    user_carriage = train.carriages[user_choice - 1]
+
+    if user_choice <= train.carriages.size
+      if train.type == :cargo
+        print 'Введите необходимый обьем: '
+        volume = STDIN.gets.to_i
+        user_carriage.take_capacity(volume)
+        puts "Свободно: #{user_carriage.capacity_available}; Занято: #{user_carriage.capacity_taken}"
+      else
+        user_carriage.take_seat
+        puts '1 место занято'
+        puts "Свободно: #{user_carriage.seats_available}; Занято: #{user_carriage.seats_taken}"
+      end
+    end
+
+    press_enter_to_continue
+    choose_step
+  end
+
 
   def press_enter_to_continue
     puts
