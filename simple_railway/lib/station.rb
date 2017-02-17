@@ -15,6 +15,7 @@ class Station
   end
 
   def train_in(train)
+    raise 'Поезд уже на данной станции' if @trains.include?(train)
     @trains << train
     puts "Поезд - № #{train.number} прибыл на станцию #{@name}."
   end
@@ -29,20 +30,26 @@ class Station
     if @trains.empty?
       puts "Пусто"
     else
-      @trains.each { |train| puts "Номер поезда - №#{train.number}. Тип: #{train.type}. Вагонов: #{train.carriages.size}" }
+      show_trains
     end
   end
 
-  def show_by_type(arg)
+  def show_trains_by_type(arg)
     puts "Поездов на станции по типу: #{arg}"
-    list = @trains.select { |train| train.type == arg }
-    list.each { |train| puts "Номер поезда - №#{train.number}. Тип: #{train.type}. Вагонов: #{train.carriages.size}" }
-    puts "Кол-во: #{list.size}"
-    puts "Всего: #{@trains.size}"
+    list = all_trains.select { |train| train.type == arg }
+    if list.any?
+      list.each(&:show)
+    else
+      puts 'Пусто'
+    end
   end
 
   def all_trains(&block)
     @trains.each &block
+  end
+
+  def show_trains
+    all_trains(&:show)
   end
 
   protected

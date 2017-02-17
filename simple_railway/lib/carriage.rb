@@ -19,6 +19,9 @@ class Carriage
     register_instance
   end
 
+  def take
+  end
+
   protected
 
   def valid!

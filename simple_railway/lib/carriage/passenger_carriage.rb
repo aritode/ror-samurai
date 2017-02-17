@@ -10,14 +10,23 @@ class PassengerCarriage < Carriage
   end
 
   def take_seat
-    if seats_available < amount
+    if @seats_taken == @seats_all
       raise 'Не хватает места в вагоне'
     end
     @seats_taken += 1
   end
 
+  def take
+    take_seat
+    puts "1 место занято в вагоне №#{@id}."
+  end
+
   def seats_available
     @seats_all - @seats_taken
+  end
+
+  def show
+    puts "#Номер вагона: #{id}. Тип: #{type}. Свободно мест: #{seats_available} Занято мест: #{@seats_taken}"
   end
 
   def valid!

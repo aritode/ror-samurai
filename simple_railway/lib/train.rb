@@ -17,16 +17,20 @@ class Train
   def initialize(number, type)
     @number = number
     @type = type
+    valid!
     @carriages = []
     @speed = 0
     @@trains[number] = self
 
-    valid!
     register_instance
   end
 
   def self.find(number)
     @@trains[number]
+  end
+
+  def self.all
+    @@trains
   end
 
   def speed_show
@@ -122,7 +126,15 @@ class Train
   end
 
   def all_carriages(&block)
-    @carriages.each_with_index &block
+    @carriages.each &block
+  end
+
+  def show_carriages
+    all_carriages(&:show)
+  end
+
+  def show
+    puts "Номер поезда: ##{number}. Тип: #{type}. Вагонов: #{carriages.size}"
   end
 
   protected
@@ -130,6 +142,7 @@ class Train
   def valid!
     raise 'Неправильный номер поезда - Допустимый формат: ###-##' if @number !~ NUMBER_FORMAT
     raise 'Некорректный тип поезда - Может быть cargo или passenger' if @type !~ TYPE_FORMAT
+    raise 'Поезд с таким номером уже существует' if Train.find(@number)
     true
   end
 end
