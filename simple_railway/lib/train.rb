@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'modules/vendor_name.rb'
 require_relative 'modules/instance_counter'
 require_relative 'modules/validation'
@@ -43,7 +44,7 @@ class Train
   end
 
   def speed_down
-    if @speed == 0
+    if @speed.zero?
       puts "You have already #{@speed} speed."
     else
       @speed -= 1
@@ -56,9 +57,9 @@ class Train
   end
 
   def add_carriage(carriage)
-    if @speed == 0 && carriage.type == self.type
+    if @speed.zero? && carriage.type == type
       @carriages << carriage
-      puts "Carriage added."
+      puts 'Carriage added.'
       carriages_show
     else
       puts "Can't add carriage! Lower carriage speed to 0."
@@ -67,10 +68,10 @@ class Train
   end
 
   def delete_carriage
-    if @carriages.size == 0
+    if @carriages.size.zero?
       puts 'Can\'t delete carriage'
       carriages_show
-    elsif @speed == 0
+    elsif @speed.zero?
       c = @carriages.pop
       puts "Carriage type: #{c.type} deleted."
       carriages_show
@@ -92,15 +93,11 @@ class Train
       puts 'Вы находитесь на конечной станции'
       return
     end
-
     puts "Поезд №#{@number} отправляется на следующую станцию"
-    3.times { self.speed_up }
-
+    3.times { speed_up }
     @route.stations[@index].train_out(self)
-
-    3.times { self.speed_down }
+    3.times { speed_down }
     @index += 1
-
     @route.stations[@index].train_in(self)
     puts 'Поезд прибыл на конечную станцию' if @index == @route.stations.size - 1
   end
@@ -126,7 +123,7 @@ class Train
   end
 
   def all_carriages(&block)
-    @carriages.each &block
+    @carriages.each(&block)
   end
 
   def show_carriages

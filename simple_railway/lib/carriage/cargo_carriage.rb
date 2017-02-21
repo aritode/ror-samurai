@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class CargoCarriage < Carriage
-
   attr_reader :capacity_taken
 
   def initialize(capacity)
@@ -10,9 +10,7 @@ class CargoCarriage < Carriage
   end
 
   def take_capacity(amount)
-   if capacity_available < amount
-     raise 'Не хватает обьема в вагоне'
-   end
+    raise 'Не хватает обьема в вагоне' if capacity_available < amount
     @capacity_taken += amount
   end
 
@@ -21,7 +19,8 @@ class CargoCarriage < Carriage
   end
 
   def show
-    puts "#Номер вагона: #{id}. Тип: #{type}. Свободный обьем: #{capacity_available} Занятый обьем: #{capacity_taken}"
+    puts "#Номер вагона: #{id}. Тип: #{type}. Свободный обьем: #{capacity_available} " \
+         "Занятый обьем: #{capacity_taken}"
   end
 
   def take
