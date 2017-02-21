@@ -1,4 +1,5 @@
 # encoding: utf-8
+# frozen_string_literal: true
 #
 # Trains - RailWay Soft
 #
@@ -13,9 +14,5 @@ require_relative 'lib/route'
 require_relative 'lib/station'
 
 require_relative 'lib/display_menu'
-
-
-
-
 
 DisplayMenu.new

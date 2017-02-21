@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Route
   attr_reader :stations
 
@@ -26,7 +27,7 @@ class Route
 
   def show_all
     puts 'Все станции маршрута:'
-    @stations.each {|station| puts station.name}
+    @stations.each { |station| puts station.name }
   end
 
   private

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Station
   attr_reader :name, :trains
 
@@ -45,7 +46,7 @@ class Station
   end
 
   def all_trains(&block)
-    @trains.each &block
+    @trains.each(&block)
   end
 
   def show_trains

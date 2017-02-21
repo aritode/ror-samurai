@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CargoTrain < Train
   def initialize(number)
     super(number, :cargo)
@@ -7,7 +8,7 @@ class CargoTrain < Train
     if carriage.instance_of?(CargoCarriage)
       super
     else
-      puts "Нельзя подсоединить - Тип поезда: #{carriage.type}, Тип вагона: #{self.type}"
+      puts "Нельзя подсоединить - Тип поезда: #{carriage.type}, Тип вагона: #{type}"
     end
   end
 end

@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class PassengerCarriage < Carriage
-
   attr_reader :seats_taken
 
   def initialize(seats)
@@ -10,9 +10,7 @@ class PassengerCarriage < Carriage
   end
 
   def take_seat
-    if @seats_taken == @seats_all
-      raise 'Не хватает места в вагоне'
-    end
+    raise 'Не хватает места в вагоне' if @seats_taken == @seats_all
     @seats_taken += 1
   end
 
@@ -26,7 +24,8 @@ class PassengerCarriage < Carriage
   end
 
   def show
-    puts "#Номер вагона: #{id}. Тип: #{type}. Свободно мест: #{seats_available} Занято мест: #{@seats_taken}"
+    puts "#Номер вагона: #{id}. Тип: #{type}. Свободно мест: #{seats_available}" \
+         " Занято мест: #{@seats_taken}"
   end
 
   def valid!
