@@ -23,6 +23,8 @@ class DisplayMenu
     ''
   ].freeze
 
+  attr_reader :number, :type, :carriages
+
   def initialize
     @trains = []
     choose_step
@@ -46,7 +48,7 @@ class DisplayMenu
     when 0 then abort 'Всего доброго!'
     when 1 then create_station
     when 2 then create_train
-    when 3 then add_carriage
+    when 3 then add_carriage_menu
     when 4 then delete_carriage
     when 5 then take_train_to_station
     when 6 then show_stations
@@ -83,7 +85,7 @@ class DisplayMenu
     end
 
     @trains << train
-    puts "Поезд №#{train.number} тип: #{train.type} создан!"
+    puts "Поезд №#{number} тип: #{type} создан!"
   rescue StandardError => e
     puts "Error: #{e.message}"
     retry
@@ -91,7 +93,7 @@ class DisplayMenu
     press_enter_to_continue
   end
 
-  def add_carriage
+  def add_carriage_menu
     train = user_choose_train
     type = user_choose_train_type
     capacity = user_choose_carriage_capacity
@@ -132,9 +134,8 @@ class DisplayMenu
       press_enter_to_continue
       choose_step
     else
-      @trains.each_with_index do |train, index|
-        puts "#{index}: Поезд №#{train.number} тип: #{train.type}" \
-             " кол-во вагонов: #{train.carriages.size}"
+      Train.all.each_with_index do |train, index|
+        puts "#{index}: Поезд №#{train[0]} тип: #{train[1].type} кол-во вагонов: #{train[1].carriages.size}"
       end
       index = STDIN.gets.to_i
       train = @trains[index]

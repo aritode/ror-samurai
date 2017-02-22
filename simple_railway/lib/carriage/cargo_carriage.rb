@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class CargoCarriage < Carriage
-  attr_reader :capacity_taken
+  attr_reader :capacity_taken, :type
 
   def initialize(capacity)
     @full_capacity = capacity
