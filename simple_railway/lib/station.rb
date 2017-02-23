@@ -2,7 +2,7 @@
 require_relative 'modules/validation'
 
 class Station
-  extend Validation
+  include Validation
   attr_reader :name, :trains
 
   validate :name, :presence

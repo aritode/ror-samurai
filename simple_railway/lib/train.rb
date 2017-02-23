@@ -6,7 +6,7 @@ require_relative 'modules/validation'
 class Train
   include VendorName
   include InstanceCounter
-  extend Validation
+  include Validation
 
   NUMBER_FORMAT = /^(\w{3})(-\w{2})?$/
 
@@ -18,11 +18,12 @@ class Train
 
   def initialize(number, type)
     @number = number
-    @type = type
-    validate!
     valid_exist_train!
+    @type = type
     @carriages = []
     @speed = 0
+
+    validate!
     @@trains[number] = self
 
     register_instance

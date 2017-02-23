@@ -74,9 +74,9 @@ class DisplayMenu
   end
 
   def create_train
+    type = user_choose_train_type
     print 'Введите номер поезда: '
     number = STDIN.gets.to_s.chomp
-    type = user_choose_train_type
 
     case type
     when :passenger then train = PassengerTrain.new(number)
@@ -88,7 +88,7 @@ class DisplayMenu
     puts "Поезд №#{number} тип: #{type} создан!"
   rescue StandardError => e
     puts "Error: #{e.message}"
-    retry
+    # retry
   ensure
     press_enter_to_continue
   end
@@ -135,11 +135,11 @@ class DisplayMenu
       choose_step
     else
       Train.all.each_with_index do |train, index|
-        puts "#{index}: Поезд №#{train[0]} тип: #{train[1].type} кол-во вагонов: #{train[1].carriages.size}"
+        puts "#{index}: Поезд №#{train[0]} тип: #{train[1].type}" \
+              " кол-во вагонов: #{train[1].carriages.size}"
       end
       index = STDIN.gets.to_i
-      train = @trains[index]
-      train
+      @trains[index]
     end
   end
 
@@ -157,22 +157,20 @@ class DisplayMenu
     Station.all[user_idx].train_in(train)
   rescue RuntimeError => e
     puts "Error: #{e.message}"
-  rescue NoMethodError
-    puts 'Создайте первую станцию.'
   ensure
     press_enter_to_continue
   end
 
   def show_stations_info
-    if Station.all.any?
-      Station.all.each_with_index { |station, idx| puts "#{idx}. #{station.name}" }
-    else
-      puts 'Станций нет. Создайте первую станцию.'
-    end
+    raise 'Станций нет. Создайте первую станцию.' unless Station.all.any?
+    Station.all.each_with_index { |station, idx| puts "#{idx}. #{station.name}" }
   end
 
   def show_stations
     show_stations_info
+  rescue RuntimeError => e
+    puts "Error: #{e.message}"
+  ensure
     press_enter_to_continue
   end
 
@@ -230,6 +228,8 @@ class DisplayMenu
     user_carriage.take
   rescue RuntimeError => e
     puts "Error: #{e.message}"
+  rescue NoMethodError
+    puts 'Error: Введите правильное значение'
     retry
   ensure
     press_enter_to_continue
@@ -244,6 +244,8 @@ class DisplayMenu
     end
   rescue RuntimeError => e
     puts "Error: #{e.message}"
+  rescue NoMethodError
+    puts 'Error: Введите правильное значение'
     retry
   ensure
     press_enter_to_continue

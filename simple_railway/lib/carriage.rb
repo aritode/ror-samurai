@@ -6,7 +6,7 @@ require_relative 'modules/validation'
 class Carriage
   include VendorName
   include InstanceCounter
-  extend Validation
+  include Validation
 
   attr_reader :type, :id
 
