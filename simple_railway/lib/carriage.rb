@@ -12,20 +12,15 @@ class Carriage
 
   TYPE_FORMAT = /^(cargo|passenger)$/i
 
+  validate :type, :format, TYPE_FORMAT
+
   def initialize(type)
     @type = type
     @id = rand(1000)
 
-    valid!
+    validate!
     register_instance
   end
 
   def take; end
-
-  protected
-
-  def valid!
-    raise 'Некорректный тип поезда - Может быть cargo или passenger' if @type !~ TYPE_FORMAT
-    true
-  end
 end

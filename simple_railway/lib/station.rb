@@ -1,12 +1,17 @@
 # frozen_string_literal: true
+require_relative 'modules/validation'
+
 class Station
+  include Validation
   attr_reader :name, :trains
+
+  validate :name, :presence
 
   @@stations = []
 
   def initialize(name)
     @name = name
-    valid!
+    validate!
     @trains = []
     @@stations << self
   end
@@ -51,12 +56,5 @@ class Station
 
   def show_trains
     all_trains(&:show)
-  end
-
-  protected
-
-  def valid!
-    raise 'Название станции не может быть пустым' if @name.size.zero?
-    true
   end
 end

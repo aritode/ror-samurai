@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class PassengerCarriage < Carriage
-  attr_reader :seats_taken
+  attr_reader :seats_taken, :type
 
   def initialize(seats)
     @seats_all = seats

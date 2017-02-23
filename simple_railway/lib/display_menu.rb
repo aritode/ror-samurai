@@ -23,6 +23,8 @@ class DisplayMenu
     ''
   ].freeze
 
+  attr_reader :number, :type, :carriages
+
   def initialize
     @trains = []
     choose_step
@@ -46,7 +48,7 @@ class DisplayMenu
     when 0 then abort 'Всего доброго!'
     when 1 then create_station
     when 2 then create_train
-    when 3 then add_carriage
+    when 3 then add_carriage_menu
     when 4 then delete_carriage
     when 5 then take_train_to_station
     when 6 then show_stations
@@ -72,9 +74,9 @@ class DisplayMenu
   end
 
   def create_train
+    type = user_choose_train_type
     print 'Введите номер поезда: '
     number = STDIN.gets.to_s.chomp
-    type = user_choose_train_type
 
     case type
     when :passenger then train = PassengerTrain.new(number)
@@ -83,15 +85,15 @@ class DisplayMenu
     end
 
     @trains << train
-    puts "Поезд №#{train.number} тип: #{train.type} создан!"
+    puts "Поезд №#{number} тип: #{type} создан!"
   rescue StandardError => e
     puts "Error: #{e.message}"
-    retry
+    # retry
   ensure
     press_enter_to_continue
   end
 
-  def add_carriage
+  def add_carriage_menu
     train = user_choose_train
     type = user_choose_train_type
     capacity = user_choose_carriage_capacity
@@ -132,13 +134,12 @@ class DisplayMenu
       press_enter_to_continue
       choose_step
     else
-      @trains.each_with_index do |train, index|
-        puts "#{index}: Поезд №#{train.number} тип: #{train.type}" \
-             " кол-во вагонов: #{train.carriages.size}"
+      Train.all.each_with_index do |train, index|
+        puts "#{index}: Поезд №#{train[0]} тип: #{train[1].type}" \
+              " кол-во вагонов: #{train[1].carriages.size}"
       end
       index = STDIN.gets.to_i
-      train = @trains[index]
-      train
+      @trains[index]
     end
   end
 
@@ -156,22 +157,20 @@ class DisplayMenu
     Station.all[user_idx].train_in(train)
   rescue RuntimeError => e
     puts "Error: #{e.message}"
-  rescue NoMethodError
-    puts 'Создайте первую станцию.'
   ensure
     press_enter_to_continue
   end
 
   def show_stations_info
-    if Station.all.any?
-      Station.all.each_with_index { |station, idx| puts "#{idx}. #{station.name}" }
-    else
-      puts 'Станций нет. Создайте первую станцию.'
-    end
+    raise 'Станций нет. Создайте первую станцию.' unless Station.all.any?
+    Station.all.each_with_index { |station, idx| puts "#{idx}. #{station.name}" }
   end
 
   def show_stations
     show_stations_info
+  rescue RuntimeError => e
+    puts "Error: #{e.message}"
+  ensure
     press_enter_to_continue
   end
 
@@ -229,6 +228,8 @@ class DisplayMenu
     user_carriage.take
   rescue RuntimeError => e
     puts "Error: #{e.message}"
+  rescue NoMethodError
+    puts 'Error: Введите правильное значение'
     retry
   ensure
     press_enter_to_continue
@@ -243,6 +244,8 @@ class DisplayMenu
     end
   rescue RuntimeError => e
     puts "Error: #{e.message}"
+  rescue NoMethodError
+    puts 'Error: Введите правильное значение'
     retry
   ensure
     press_enter_to_continue

@@ -8,19 +8,22 @@ class Train
   include InstanceCounter
   include Validation
 
-  attr_reader :speed, :number, :type, :carriages
+  NUMBER_FORMAT = /^(\w{3})(-\w{2})?$/
 
   @@trains = {}
 
-  NUMBER_FORMAT = /^(\w{3})(-\w{2})?$/
-  TYPE_FORMAT = /^(cargo|passenger)$/i
+  attr_reader :speed, :number, :type, :carriages
+
+  validate :number, :format, NUMBER_FORMAT
 
   def initialize(number, type)
     @number = number
+    valid_exist_train!
     @type = type
-    valid!
     @carriages = []
     @speed = 0
+
+    validate!
     @@trains[number] = self
 
     register_instance
@@ -136,9 +139,7 @@ class Train
 
   protected
 
-  def valid!
-    raise 'Неправильный номер поезда - Допустимый формат: ###-##' if @number !~ NUMBER_FORMAT
-    raise 'Некорректный тип поезда - Может быть cargo или passenger' if @type !~ TYPE_FORMAT
+  def valid_exist_train!
     raise 'Поезд с таким номером уже существует' if Train.find(@number)
     true
   end
